@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header::common-header"></head>
+<body>
+<div class="container" th:replace="common/navbar::navbar"></div>
+<div class="container">
+    <h1 class="text-center bg-dark" style="color: white">Book List</h1>
+    <div class="table-responsive">
+        <table id="table-book" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" th:id="selectedAllBooks">
+                    </th>
+                    <th class="th-sm">Title
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    </th>
+                    <th>Author
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    </th>
+                    <th>Category
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    </th>
+                    <th>List price
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    </th>
+                    <th>Our price
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    </th>
+                    <th>Active?
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    </th>
+                    <th>Operation
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="book: ${bookList}">
+                    <td>
+                        <input hidden name="id" th:value="${book.id}">
+                        <input type="checkbox" th:id="selected+${book.id}" class="checkboxBook">
+                    </td>
+                    <td><a th:href="@{/book/bookInfo(id=${book.id})}"><span th:text="${book.title}"></span></a></td>
+                    <td th:text="${book.author}"></td>
+                    <td th:text="${book.category}"></td>
+                    <td th:text="${book.listPrice}"></td>
+                    <td th:text="${book.ourPrice}"></td>
+                    <td th:text="${book.status}"></td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmationSupp" th:attrappend="data-target=${book.id}">
+                            <span class="fa fa-close"></span> Delete
+                        </button>
+                        <div class="modal modalSupp fade" id="confirmationSupp" tabindex="-1" role="dialog"  th:attrappend="id=${book.id}">
+                            <div class="modal-dialog modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: royalblue">
+                                        <h4 class="modal-title">delete a book</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>do you want to delete the book <strong><span th:text="${book.title}" class="text-info"></span></strong>?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                            <span class="fa fa-close"></span> Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary delete-book" th:id="oneBook-+${book.id}">
+                                            <span class="fa fa-check"></span> Confirm Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button type="button" id="deleteManyButton" class="btn btn-danger" data-toggle="modal" data-target="#confirmationSupprim">
+        <span class="fa fa-close"></span> Delete selected
+    </button>
+    <div class="modal modalSupp fade" id="confirmationSupprim" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: royalblue">
+                    <h4 class="modal-title">delete selected books</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>do you want to delete all selected books?</p>
+                    <p>you have selected <span id="nberBookSelected"></span> book(s)</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <span class="fa fa-close"></span> Close
+                    </button>
+                    <button type="button" class="btn btn-primary" th:id="deleteSelected">
+                        <span class="fa fa-check"></span> Delete All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="common/header::body-common-scripts"></div>
+<script>
+    $(document).ready(function () {
+        $('#table-book').dataTable({
+            "scrollY": "50vh",
+            "scrollCollapse": true,
+            "scrollX": true,
+            "ordering":false,
+            "pagingType": "full_numbers",
+            "language": {
+                "decimal": ",",
+                "thousands": "."
+            },
+            "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+            stateSave:true
+        });
+    });
+</script>
+</body>
+</html>

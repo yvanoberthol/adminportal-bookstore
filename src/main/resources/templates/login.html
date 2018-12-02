@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header::common-header"></head>
+<body id="home">
+<div class="container">
+
+    <div class="row" style="margin-bottom: 50px"></div>
+    <!-- log image-->
+    <div class="row" style="vertical-align: center;">
+        <div class="col-md-4 offset-md-8 col-sm-12" style="z-index: 1">
+            <img th:src="@{/imgs/livres_pour_soi.png}">
+        </div>
+    </div>
+    <!--separation line with the title-->
+    <div class="row" style="margin-top: -150px; z-index: -1">
+        <div class="col-md-12 separation" style="margin-top: 50px">
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12 offset-md-1 separation text-center"
+             style="margin-top: -70px; color: #0b2e13; background-color: #80bdff;padding-top: 10px; font-size: 30px">
+            Welcome to Admin Portal for let's Bookstore.
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header text-center bg-info" style="font-size: 25px">Connexion's space</div>
+                <div class="card-body" style="background-color: #b3d7ff">
+                    <div th:if="${param.error}" class="alert alert-danger text-center text-dark" >
+                        Username or password incorrect!!!
+                    </div>
+                    <div th:if="${param.logout}" class="text-center">
+                        <h4 class="text-info">You are deconnected...</h4>
+                    </div>
+                    <form th:action="@{/login}" method="post">
+                        <div class="form-group">
+                            <label class="control-label"><strong>Username</strong></label>
+                            <input type="text" class="form-control"
+                                   id="loginusername" name="username" autofocus>
+                            <p>Enter username here.</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"><strong>Password</strong></label>
+                            <input type="password" class="form-control"
+                                   id="loginpassword" name="password" autofocus>
+                            <p>Enter password here.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="col-md-6 offset-md-3">
+                                <button type="submit" class="btn btn-primary form-control">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="common/header::body-common-scripts"></div>
+</body>
+</html>
